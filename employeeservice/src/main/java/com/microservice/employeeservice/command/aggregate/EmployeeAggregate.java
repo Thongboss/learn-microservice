@@ -21,7 +21,7 @@ public class EmployeeAggregate {
 	private String firstName;
 	private String lastName;
 	private String kin;
-	private boolean isDisciplined;
+	private Boolean isDisciplined;
 	public EmployeeAggregate() {}
 	
 	@CommandHandler
@@ -51,7 +51,7 @@ public class EmployeeAggregate {
 		this.firstName = event.getFirstName();
 		this.lastName = event.getLastName();
 		this.kin = event.getKin();
-		this.isDisciplined = event.isDisciplined();
+		this.isDisciplined = event.getIsDisciplined();
 	}
 	
 	@EventSourcingHandler
@@ -60,7 +60,7 @@ public class EmployeeAggregate {
 		this.firstName = event.getFirstName();
 		this.lastName = event.getLastName();
 		this.kin = event.getKin();
-		this.isDisciplined = event.isDisciplined();
+		this.isDisciplined = event.getIsDisciplined();
 	}
 	
 	@EventSourcingHandler

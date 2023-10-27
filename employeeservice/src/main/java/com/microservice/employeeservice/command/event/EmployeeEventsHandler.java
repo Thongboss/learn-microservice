@@ -26,7 +26,7 @@ public class EmployeeEventsHandler {
 		edm.setFirstName(event.getFirstName());
 		edm.setLastName(event.getLastName());
 		edm.setKin(event.getKin());
-		edm.setDisciplined(event.isDisciplined());
+		edm.setIsDisciplined(event.getIsDisciplined());
 		employeeRepository.save(edm);
 	}
 	

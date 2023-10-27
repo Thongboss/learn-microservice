@@ -5,7 +5,7 @@ public class EmployeeUpdateEvent {
 	private String firstName;
 	private String lastName;
 	private String kin;
-	private boolean isDisciplined;
+	private Boolean isDisciplined;
 	public String getEmployeeId() {
 		return employeeId;
 	}
@@ -30,10 +30,10 @@ public class EmployeeUpdateEvent {
 	public void setKin(String kin) {
 		this.kin = kin;
 	}
-	public boolean isDisciplined() {
+	public Boolean getIsDisciplined() {
 		return isDisciplined;
 	}
-	public void setDisciplined(boolean isDisciplined) {
+	public void setIsDisciplined(Boolean isDisciplined) {
 		this.isDisciplined = isDisciplined;
 	}
 }

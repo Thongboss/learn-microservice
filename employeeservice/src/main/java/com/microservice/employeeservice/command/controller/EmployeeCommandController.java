@@ -34,7 +34,7 @@ public class EmployeeCommandController {
 	@PutMapping
 	public String updateEmployee(@RequestBody EmployeeRequestModel model) {
 		UpdateEmployeeCommand command = 
-				new UpdateEmployeeCommand(model.getEmployeeId(), model.getFirstName(), model.getLastName(), model.getKin(), model.isDisciplined());
+				new UpdateEmployeeCommand(model.getEmployeeId(), model.getFirstName(), model.getLastName(), model.getKin(), model.getIsDisciplined());
 		commandGateway.sendAndWait(command);
 		return "update employee";
 	}
