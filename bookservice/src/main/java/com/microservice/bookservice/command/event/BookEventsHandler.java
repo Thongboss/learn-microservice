@@ -26,4 +26,20 @@ public class BookEventsHandler {
 		
 		bookRepository.save(book);
 	}
+	
+	@EventHandler
+	public void on(BookUpdateEvent event) {
+		Book book = bookRepository.findById(event.getBookId()).get();
+		book.setAuthor(event.getAuthor());
+		book.setName(event.getName());
+		book.setIsReady(event.getIsReady());
+		
+		bookRepository.save(book);
+		
+	}
+	
+	@EventHandler
+	public void on(BookDeleteEvent event) {
+		bookRepository.deleteById(event.getBookId());
+	}
 }

@@ -8,7 +8,11 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import com.microservice.bookservice.command.command.CreateBookCommand;
+import com.microservice.bookservice.command.command.DeleteBookCommand;
+import com.microservice.bookservice.command.command.UpdateBookCommand;
 import com.microservice.bookservice.command.event.BookCreateEvent;
+import com.microservice.bookservice.command.event.BookDeleteEvent;
+import com.microservice.bookservice.command.event.BookUpdateEvent;
 
 // @Aggregate là chú thích cụ thể của Axon Spring đánh dấu lớp này là tổng hợp
 @Aggregate
@@ -39,6 +43,23 @@ public class BookAggregate {
 		
 	}
 	
+	@CommandHandler
+	public void handle(UpdateBookCommand updateBookCommand) {
+		BookUpdateEvent bookUpdateEvent = new BookUpdateEvent();
+		
+		BeanUtils.copyProperties(updateBookCommand, bookUpdateEvent);
+		
+		AggregateLifecycle.apply(bookUpdateEvent);
+	}
+	
+	@CommandHandler
+	public void handle(DeleteBookCommand deleteBookCommand) {
+		BookDeleteEvent bookDeleteEvent = new BookDeleteEvent(deleteBookCommand.getBookId());
+		
+//		BeanUtils.copyProperties(updateBookCommand, bookUpdateEvent);
+		
+		AggregateLifecycle.apply(bookDeleteEvent);
+	}
 	
 	/* sau khi sự kiện command tại @CommandHandler được chạy, dữ liệu event được gửi từ AggregateLifecycle.apply nó sẽ thay đổi giá trị 
 	 * thuộc tính của lớp BookAggregate đang có thông qua hàm on dưới anotation @EventSourcingHandler. từ đây nó có thể phát hiện sự thay đổi của thuộc tính
@@ -49,5 +70,18 @@ public class BookAggregate {
 		this.author = event.getAuthor();
 		this.isReady = event.getIsReady();
 		this.name = event.getName();
+	}
+	
+	@EventSourcingHandler
+	public void on(BookUpdateEvent event) {
+		this.bookId = event.getBookId();
+		this.author = event.getAuthor();
+		this.isReady = event.getIsReady();
+		this.name = event.getName();
+	}
+	
+	@EventSourcingHandler
+	public void on(BookDeleteEvent event) {
+		this.bookId = event.getBookId();
 	}
 }
