@@ -2,7 +2,7 @@
 
 # run axonserver
 
-javax-jar axonserver.jar
+java-jar axonserver.jar
 
 # run kafka
 
@@ -19,3 +19,12 @@ kafka-topics.bat --create --topic microservice --bootstrap-server localhost:9092
 # show list of existing topic
 
 kafka-topics.bat --list --bootstrap-server localhost:9092
+
+# create producer and send message
+
+kafka-console-producer.bat --bootstrap-server localhost:9092 --topic microservice
+
+# check message by consumer
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic microservice
+
