@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,8 +28,11 @@ public class EmployeeCommandController {
 	@Autowired
 	private CommandGateway commandGateway;
 	
+//	@Autowired
+//	private MessageChannel output;
+	
 	@Autowired
-	private MessageChannel output;
+	private StreamBridge streamBridge;
 	
 	@PostMapping
 	public String addEmployee(@RequestBody EmployeeRequestModel employee) {
@@ -58,7 +62,8 @@ public class EmployeeCommandController {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(message);
-			output.send(MessageBuilder.withPayload(json).build());
+//			output.send(MessageBuilder.withPayload(json).build());
+			streamBridge.send("microservice-out-0", MessageBuilder.withPayload(json).build());
 		} catch (JsonProcessingException e) {
 			// TODO: handle exception
 			e.printStackTrace();

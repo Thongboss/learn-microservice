@@ -15,7 +15,6 @@ public class NotificationserviceApplication {
 	}
 	
 	@Bean 
-	@Primary
 	public Consumer<String> microservice(){
 		return message -> System.out.println("Message: "  + message);
 	}
