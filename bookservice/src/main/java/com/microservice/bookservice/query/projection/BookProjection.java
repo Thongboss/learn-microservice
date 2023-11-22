@@ -13,6 +13,8 @@ import com.microservice.bookservice.command.data.BookRepository;
 import com.microservice.bookservice.query.model.BookResponseModel;
 import com.microservice.bookservice.query.queries.GetAllBookQuery;
 import com.microservice.bookservice.query.queries.GetBookQuery;
+import com.microservice.commonservice.model.BookResponseCommonModel;
+import com.microservice.commonservice.query.GetBookDetailsQuery;
 
 @Component
 public class BookProjection {
@@ -41,5 +43,13 @@ public class BookProjection {
 			listModel.add(book);
 		});
 		return listModel;
+	}
+	
+	@QueryHandler
+	public BookResponseCommonModel handle(GetBookDetailsQuery query) {
+		BookResponseCommonModel model = new BookResponseCommonModel();
+		Book book = bookRepository.findById(query.getBookId()).get();
+		BeanUtils.copyProperties(book, model);
+		return model;
 	}
 }

@@ -18,5 +18,14 @@ public class BorrowEventsHandler {
 		Borrowing borrow = new Borrowing();
 		BeanUtils.copyProperties(event, borrow);
 		borrowRepository.save(borrow);
+		// sau khi thực hiện request đến DB thì nó sẽ nhảy vào borrowingSaga để bắt đầu thực hiện vòng đời saga
+	}
+	
+	@EventHandler
+	public void on(BorrowDeleteEvent event) {
+		if(borrowRepository.findById(event.getId()).isPresent()) {
+			borrowRepository.deleteById(event.getId());
+		}
+		else return;
 	}
 }

@@ -15,4 +15,9 @@ public class BorrowDeleteEvent {
 		super();
 		this.id = id;
 	}
+
+	public BorrowDeleteEvent() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 }

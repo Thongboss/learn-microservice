@@ -10,7 +10,9 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import com.microservice.borrowingservice.command.api.command.CreateBorrowCommand;
+import com.microservice.borrowingservice.command.api.command.DeleteBorrowCommand;
 import com.microservice.borrowingservice.command.api.events.BorrowCreateEvent;
+import com.microservice.borrowingservice.command.api.events.BorrowDeleteEvent;
 
 @Aggregate
 public class BorrowAggregate {
@@ -40,4 +42,15 @@ public class BorrowAggregate {
 		this.borrowingDate = event.getBorrowingDate();
 	}
 	
+	@CommandHandler
+	public void handle (DeleteBorrowCommand command) {
+		BorrowDeleteEvent event = new BorrowDeleteEvent();
+		BeanUtils.copyProperties(command, event);
+		AggregateLifecycle.apply(event);
+	}
+	
+	@EventSourcingHandler
+	public void on(BorrowDeleteEvent event) {
+		this.id = event.getId();
+	}
 }

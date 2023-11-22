@@ -1,12 +1,9 @@
-package com.microservice.borrowingservice.config;
+package com.microservice.bookservice.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
-@Configuration
 public class AxonConfig {
 	@Bean
 	public XStream xStream() {

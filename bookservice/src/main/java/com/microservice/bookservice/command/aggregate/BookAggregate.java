@@ -13,6 +13,8 @@ import com.microservice.bookservice.command.command.UpdateBookCommand;
 import com.microservice.bookservice.command.event.BookCreateEvent;
 import com.microservice.bookservice.command.event.BookDeleteEvent;
 import com.microservice.bookservice.command.event.BookUpdateEvent;
+import com.microservice.commonservice.command.UpdateStatusBookCommand;
+import com.microservice.commonservice.events.UpdateStatusBookEvent;
 
 // @Aggregate là chú thích cụ thể của Axon Spring đánh dấu lớp này là tổng hợp
 @Aggregate
@@ -59,6 +61,20 @@ public class BookAggregate {
 //		BeanUtils.copyProperties(updateBookCommand, bookUpdateEvent);
 		
 		AggregateLifecycle.apply(bookDeleteEvent);
+	}
+	
+	// sau khi thực hiện mượn sách ở borrow nó sẽ chạy vào commonservice thông qua commonservice mapping qua đây để thực hiện update trạng thái sách
+	@CommandHandler
+	public void handle(UpdateStatusBookCommand command) {
+		UpdateStatusBookEvent book = new UpdateStatusBookEvent();
+		BeanUtils.copyProperties(command, book);
+		AggregateLifecycle.apply(book);
+	}
+	// sau khi chạy ở commandhandler nó thông qua eventsourcing này để truyền tải thông tin update
+	@EventSourcingHandler
+	public void on(UpdateStatusBookEvent event) {
+		this.bookId = event.getBookId();
+		this.isReady = event.getIsReady();
 	}
 	
 	/* sau khi sự kiện command tại @CommandHandler được chạy, dữ liệu event được gửi từ AggregateLifecycle.apply nó sẽ thay đổi giá trị 
