@@ -45,7 +45,7 @@ public class BorrowingSaga {
 			}
 		} catch (Exception e) {
 			this.rollBackBorrowRecord(event.getId());
-			System.out.println(e.getMessage());
+			System.out.println("Saga exception: "+e.getMessage());
 		}
 	}
 	

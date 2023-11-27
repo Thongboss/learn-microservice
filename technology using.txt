@@ -1,0 +1,7 @@
+Microservice with:
++ CQRS pattern
++ Eventsourcing
++ AxonServer
++ Kafka
++ API Getway
++ 

@@ -26,7 +26,7 @@ public class BorrowCommandController {
 					new CreateBorrowCommand(UUID.randomUUID().toString(),model.getBookId(), model.getEmployeeId(), new Date());
 			commandGateway.sendAndWait(command);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Controller Exception: "+e.getMessage());
 		}
 		return "Book borrowing added";
 	}
